@@ -1,38 +1,87 @@
-.App {
+/* index.css or App.css */
+:root {
+  --primary-color: #DF3C5F;
+  /* Electric Pink */
+  --secondary-color: #224193;
+  /* Azure */
+  --tertiary-color: #6F9BD1;
+  /* Powder Blue */
+  --text-color: #333;
+  --background-color: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Kalnia', Arial, sans-serif;
+  background-color: #fff;
+  /* White background for a clean look */
+  color: #333;
+  /* Dark text for readability */
+}
+
+h1 {
+  color: #224193;
+  /* Azure color for your main titles */
   text-align: center;
+  /* Centered title */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a {
+  color: var(--secondary-color);
+  transition: color 0.3s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a:hover {
+  color: var(--primary-color);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+button {
+  background-color: #DF3C5F;
+  /* Electric Pink background for buttons */
+  color: #fff;
+  /* White text for contrast */
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* Smooth transition for hover effect */
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: darken(var(--primary-color), 10%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+input,
+textarea {
+  border: 2px solid #224193;
+  /* Azure border for inputs */
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--secondary-color);
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+
+  input,
+  textarea,
+  button {
+    width: 100%;
+    /* Full width on smaller screens */
   }
 }
