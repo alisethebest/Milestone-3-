@@ -19,3 +19,12 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+
+    .add-task-form input,
+    .add-task-form textarea,
+    .add-task-form button {
+        padding: 10px;
+    }
+}

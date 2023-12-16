@@ -1,4 +1,4 @@
-/* index.css or App.css */
+/* App.css */
 :root {
   --primary-color: #DF3C5F;
   /* Electric Pink */
@@ -10,78 +10,146 @@
   --background-color: #fff;
 }
 
-body {
+body,
+html {
   margin: 0;
+  padding: 0;
   font-family: 'Kalnia', Arial, sans-serif;
-  background-color: #fff;
-  /* White background for a clean look */
-  color: #333;
-  /* Dark text for readability */
+  background-color: var(--background-color);
+  /* White background */
+  color: var(--text-color);
+  /* Dark text */
+  height: 100%;
+  /* Full height */
 }
 
-h1 {
-  color: #224193;
-  /* Azure color for your main titles */
-  text-align: center;
-  /* Centered title */
+/* Navigation bar styles */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--secondary-color);
+  padding: 1rem 2rem;
 }
 
-a {
-  color: var(--secondary-color);
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
   transition: color 0.3s ease;
 }
 
-a:hover {
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--tertiary-color);
+  text-decoration: underline;
+}
+
+/* Hero section styles */
+.hero {
+  background-size: cover;
+  background-position: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--background-color);
+}
+
+.hero-title {
   color: var(--primary-color);
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+  color: var(--secondary-color);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 button {
-  background-color: #DF3C5F;
-  /* Electric Pink background for buttons */
+  background-color: var(--primary-color);
+  /* Electric Pink for buttons */
   color: #fff;
-  /* White text for contrast */
+  /* White text */
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  transition: background-color 0.2s;
-  /* Smooth transition for hover effect */
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 button:hover {
   background-color: darken(var(--primary-color), 10%);
 }
 
-input,
-textarea {
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  transition: border-color 0.3s ease;
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--tertiary-color);
 }
 
-input,
-textarea {
-  border: 2px solid #224193;
-  /* Azure border for inputs */
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
+button:active {
+  transform: scale(0.98);
 }
 
-input:focus,
-textarea:focus {
-  border-color: var(--secondary-color);
+/* Features section styles */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.feature {
+  background: var(--background-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.feature:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+  color: var(--secondary-color);
+  margin: 0.5rem 0;
+}
+
+.feature-description {
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+/* About section styles */
+.about {
+  padding: 2rem 1rem;
+}
+
+/* Footer styles */
+footer {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
 }
 
 /* Add media query for responsiveness */
 @media (max-width: 768px) {
+  .features {
+    grid-template-columns: 1fr;
+    /* 1 column for small screens */
+  }
 
-  input,
-  textarea,
-  button {
-    width: 100%;
-    /* Full width on smaller screens */
+  nav {
+    justify-content: center;
+    /* Center navbar links on small screens */
+  }
+
+  .nav-link {
+    margin: 0 10px;
+    /* Less space between nav links on small screens */
   }
 }

@@ -1,8 +1,14 @@
-/* TaskList.css */
 .task-list {
     margin: 20px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
+}
+
+@media screen and (max-width: 768px) {
+    .task-list {
+        padding: 10px;
+        margin: 10px;
+    }
 }
