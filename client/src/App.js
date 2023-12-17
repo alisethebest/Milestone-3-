@@ -8,14 +8,16 @@ import {
 } from "react-router-dom";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
-import Task from "./components/task"; // Make sure this file exists and is correctly exporting the Task component
+import Task from "./components/task";
 import "./App.css";
+import Login from "./components/login";
+import SignUp from "./components/signup";
 
 function Home() {
   let navigate = useNavigate();
 
   function handleGetStartedClick() {
-    navigate("/tasks");
+    navigate("/login");
   }
 
   return (
@@ -70,11 +72,23 @@ function Home() {
     </main>
   );
 }
+
 function App() {
   const [navOpen, setNavOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleNav = () => {
     setNavOpen(!navOpen);
+  };
+
+  const handleLogin = (username, password) => {
+    // TODO: Implement login logic
+    // On successful login, set isLoggedIn to true
+    setIsLoggedIn(true); // Placeholder for demonstration
+  };
+
+  const handleSignUp = (username, password) => {
+    // TODO: Implement sign-up logic
   };
 
   return (
@@ -93,20 +107,42 @@ function App() {
               >
                 Home
               </Link>
-              <Link
-                to="/tasks"
-                className="nav-link"
-                onClick={() => setNavOpen(false)}
-              >
-                Task List
-              </Link>
-              <Link
-                to="/add-task"
-                className="nav-link"
-                onClick={() => setNavOpen(false)}
-              >
-                Add Task
-              </Link>
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    to="/tasks"
+                    className="nav-link"
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Task List
+                  </Link>
+                  <Link
+                    to="/add-task"
+                    className="nav-link"
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Add Task
+                  </Link>
+                  {/* Add a Logout link or button here */}
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="nav-link"
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="nav-link"
+                    onClick={() => setNavOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </header>
@@ -115,8 +151,10 @@ function App() {
           <Route path="/tasks" element={<TaskList />} />
           <Route path="/add-task" element={<AddTaskForm />} />
           <Route path="/task/:id" element={<Task />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
         </Routes>
-        <footer className="app-footer">{/* Footer content */}</footer>
+        <footer className="app-footer">Frank Cervantes</footer>
       </div>
     </Router>
   );
