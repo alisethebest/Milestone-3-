@@ -23,6 +23,20 @@ html {
   /* Full height */
 }
 
+.hamburger {
+  background: none;
+  border: none;
+  color: #fff;
+  /* Adjust color to match your design */
+  font-size: 24px;
+  /* Adjust size as needed */
+  padding: 0.5rem;
+  cursor: pointer;
+  display: none;
+  /* Hidden by default, shown in the media query below */
+}
+
+
 /* Navigation bar styles */
 nav {
   display: flex;
@@ -136,20 +150,91 @@ footer {
   text-align: center;
 }
 
-/* Add media query for responsiveness */
-@media (max-width: 768px) {
-  .features {
-    grid-template-columns: 1fr;
-    /* 1 column for small screens */
-  }
-
-  nav {
-    justify-content: center;
-    /* Center navbar links on small screens */
-  }
-
-  .nav-link {
-    margin: 0 10px;
-    /* Less space between nav links on small screens */
+/* Media Query for Large Screens (max-width: 1200px) */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 2.5rem;
+    /* Adjust hero title font size for large screens */
   }
 }
+
+/* Media Query for Medium Screens (max-width: 992px) */
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 2rem;
+    /* Adjust hero title font size for medium screens */
+  }
+
+     /* Display the hamburger menu */
+     .hamburger {
+       display: block;
+     }
+
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns for medium screens */
+  }
+    .nav-links {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      /* Start off-screen to the left */
+      width: 100%;
+      height: 100vh;
+      background: #224193;
+      /* Adjust background to match your design */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: left 0.3s ease;
+    }
+
+
+  /* Adjust other elements for medium screens here */
+  body,
+  html {
+    font-size: 15px;
+    /* Adjust base font size for medium screens */
+  }
+
+  /* Additional font size adjustments for other text elements can be added here */
+}
+
+/* Media Query for Extra Small Screens (max-width: 576px) */
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.5rem;
+    /* Adjust hero title font size for extra small screens */
+  }
+
+ .nav-link {
+   display: block;
+   font-size: 1.5rem;
+   /* Larger font size for mobile */
+   margin-bottom: 1rem;
+   /* Space out the links */
+   color: #fff;
+   /* Adjust color to match your design */
+   text-decoration: none;
+ }
+
+ .nav-links.show {
+   left: 0;
+ }
+ }
+
+
+  .features {
+    grid-template-columns: 1fr;
+    /* 1 column for extra small screens */
+  }
+
+  /* Add other specific styling for extra small screens here */
+  body,
+  html {
+    font-size: 14px;
+    /* Adjust base font size for extra small screens */
+  }
+
+  /* Additional font size adjustments for other text elements can be added here */

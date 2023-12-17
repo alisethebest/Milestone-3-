@@ -1,5 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
 import Task from "./components/task"; // Make sure this file exists and is correctly exporting the Task component
@@ -65,32 +71,50 @@ function Home() {
   );
 }
 function App() {
+  const [navOpen, setNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setNavOpen(!navOpen);
+  };
+
   return (
     <Router>
       <div className="app">
         <header className="app-header">
           <nav className="navbar">
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-            <Link to="/tasks" className="nav-link">
-              Task List
-            </Link>
-            <Link to="/add-task" className="nav-link">
-              Add Task
-            </Link>
-            {/* Adjust the route as needed for your single Task component */}
-            <Link to="/task/:id" className="nav-link">
-              Task Detail
-            </Link>
+            <button onClick={toggleNav} className="hamburger">
+              ☰
+            </button>
+            <div className={`nav-links ${navOpen ? "show" : ""}`}>
+              <Link
+                to="/"
+                className="nav-link"
+                onClick={() => setNavOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                to="/tasks"
+                className="nav-link"
+                onClick={() => setNavOpen(false)}
+              >
+                Task List
+              </Link>
+              <Link
+                to="/add-task"
+                className="nav-link"
+                onClick={() => setNavOpen(false)}
+              >
+                Add Task
+              </Link>
+            </div>
           </nav>
         </header>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tasks" element={<TaskList />} />
           <Route path="/add-task" element={<AddTaskForm />} />
-          <Route path="/task/:id" element={<Task />} />{" "}
-          {/* Ensure this matches your Task component's expectations */}
+          <Route path="/task/:id" element={<Task />} />
         </Routes>
         <footer className="app-footer">{/* Footer content */}</footer>
       </div>
