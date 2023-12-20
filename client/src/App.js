@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
+  Navigate,
   useNavigate,
 } from "react-router-dom";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
-import Task from "./components/task";
-import "./App.css";
+import task from "./components/task";
 import Login from "./components/login";
 import SignUp from "./components/signup";
+import "./App.css";
 
 function Home() {
   let navigate = useNavigate();
@@ -77,18 +78,32 @@ function App() {
   const [navOpen, setNavOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogin = (token) => {
+    localStorage.setItem("token", token);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
   const toggleNav = () => {
     setNavOpen(!navOpen);
   };
 
-  const handleLogin = (username, password) => {
-    // TODO: Implement login logic
-    // On successful login, set isLoggedIn to true
-    setIsLoggedIn(true); // Placeholder for demonstration
-  };
-
-  const handleSignUp = (username, password) => {
-    // TODO: Implement sign-up logic
+  const ProtectedRoute = ({ children }) => {
+    if (!isLoggedIn) {
+      return <Navigate to="/login" />;
+    }
+    return children;
   };
 
   return (
@@ -123,7 +138,9 @@ function App() {
                   >
                     Add Task
                   </Link>
-                  {/* Add a Logout link or button here */}
+                  <button onClick={handleLogout} className="nav-link">
+                    Logout
+                  </button>
                 </>
               ) : (
                 <>
@@ -148,13 +165,27 @@ function App() {
         </header>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/tasks" element={<TaskList />} />
-          <Route path="/add-task" element={<AddTaskForm />} />
-          <Route path="/task/:id" element={<Task />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <TaskList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-task"
+            element={
+              <ProtectedRoute>
+                <AddTaskForm />
+              </ProtectedRoute>
+            }
+          />
+          {/* Add other routes as needed */}
         </Routes>
-        <footer className="app-footer">Frank Cervantes</footer>
+        <footer className="app-footer">© 2023 Your Company Name</footer>
       </div>
     </Router>
   );

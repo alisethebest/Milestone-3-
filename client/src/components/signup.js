@@ -1,21 +1,53 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function SignUp({ onSignUp }) {
+function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   let navigate = useNavigate();
+
+  const isValidEmail = (email) => {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const isValidPassword = (password) => {
+    // Example: Check if password length is more than 6
+    return password.length > 6;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement the signup logic here
-    // This could involve sending a request to your backend server
-    // and handling the response
-    const success = await onSignUp(username, password); // This should be an async call to your backend
-    if (success) {
-      navigate("/login"); // Navigate to the login page upon successful signup
-    } else {
-      // Handle signup failure (e.g., display an error message)
+    setErrorMessage("");
+
+    if (!isValidEmail(username)) {
+      setErrorMessage("Invalid email format");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setErrorMessage("Password is too short");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: username, password }),
+      });
+
+      if (response.ok) {
+        // Option: Navigate to the login page or automatically log the user in
+        navigate("/login"); // For now, navigating to the login page
+      } else {
+        const data = await response.json();
+        setErrorMessage("Signup failed: " + data.error);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred: " + error.message);
     }
   };
 

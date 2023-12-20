@@ -1,4 +1,4 @@
-require("dotenv").config(); // This line should be at the very top
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const taskRoutes = require("./routes/tasks");

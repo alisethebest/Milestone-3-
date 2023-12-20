@@ -9,18 +9,23 @@ const TaskList = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    // Simulated mock data (replace with your own mock data)
-    const mockData = [
-      { id: 1, title: "Task 1", description: "Description for Task 1" },
-      { id: 2, title: "Task 2", description: "Description for Task 2" },
-      { id: 3, title: "Task 3", description: "Description for Task 3" },
-    ];
+    try {
+      // Simulated mock data (replace with your own mock data)
+      const mockData = [
+        { id: 1, title: "Task 1", description: "Description for Task 1" },
+        { id: 2, title: "Task 2", description: "Description for Task 2" },
+        { id: 3, title: "Task 3", description: "Description for Task 3" },
+      ];
 
-    // Simulate a delay to mimic an API request
-    setTimeout(() => {
-      setTasks(mockData);
+      // Simulate a delay to mimic an API request
+      setTimeout(() => {
+        setTasks(mockData);
+        setIsLoading(false);
+      }, 1000); // Adjust the delay as needed
+    } catch (err) {
+      setError(err.message);
       setIsLoading(false);
-    }, 1000); // Adjust the delay as needed
+    }
   }, []);
 
   if (isLoading) {

@@ -1,22 +1,59 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login({ onLogin }) {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   let navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Implement the login logic here
-    // This could involve sending a request to your backend server
-    // and handling the response
-    const success = await onLogin(username, password); // This should be an async call to your backend
-    if (success) {
-      navigate("/tasks"); // Navigate to the home page or dashboard upon successful login
-    } else {
-      // Handle login failure (e.g., display an error message)
+  const isValidEmail = (email) => {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const isValidPassword = (password) => {
+    // Example: Check if password length is more than 6
+    return password.length > 6;
+  };
+
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/tasks");
+      } else {
+        setErrorMessage("Login failed: " + data.error);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred: " + error.message);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    if (!isValidEmail(username)) {
+      setErrorMessage("Invalid email format");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setErrorMessage("Password is too short");
+      return;
+    }
+
+    handleLogin(username, password);
   };
 
   return (
