@@ -52,4 +52,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.use("/user/profile", authenticateToken);
+
+// User profile
+router.get("/user/profile", async (req, res) => {
+  try {
+    // Assuming the middleware adds the user's ID to the request object
+    const user = await User.findById(req.user.id);
+    if (!user) retu;
+    res.json({
+      name: user.name,
+      email: user.email,
+      // add other user details you want to return
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
