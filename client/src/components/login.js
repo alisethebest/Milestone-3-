@@ -19,6 +19,7 @@ function Login() {
   };
 
   const handleLogin = async (email, password) => {
+    console.log("handleLogin called", { email, password });
     try {
       const response = await fetch("/api/login", {
         method: "POST",
@@ -40,6 +41,7 @@ function Login() {
   };
 
   const handleSubmit = (e) => {
+    console.log("handleSubmit called");
     e.preventDefault();
     setErrorMessage("");
 
@@ -87,6 +89,7 @@ function Login() {
           Don’t have an account? <Link to="/signup">Sign up here</Link>
         </p>
       </form>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }

@@ -90,6 +90,16 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  // Add a test route for navigation
+  const TestNavigate = () => {
+    let navigate = useNavigate();
+    useEffect(() => {
+      console.log("Test navigate executed");
+      navigate("/login");
+    }, [navigate]);
+    return <div>Testing Navigation...</div>;
+  };
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);

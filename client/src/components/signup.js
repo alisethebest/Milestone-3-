@@ -19,8 +19,9 @@ function SignUp() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("handleSubmit called");
     e.preventDefault();
-    setErrorMessage("");
+    console.log("Form submitted", { username, password });
 
     if (!isValidEmail(username)) {
       setErrorMessage("Invalid email format");
@@ -82,6 +83,7 @@ function SignUp() {
           Already have an account? <Link to="/login">Login here</Link>
         </p>
       </form>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }
