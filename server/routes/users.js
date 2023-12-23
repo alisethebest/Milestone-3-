@@ -19,6 +19,13 @@ const authenticateToken = (req, res, next) => {
 // User registration
 router.post("/signup", async (req, res) => {
   try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(409).json({ error: "User already exists" });
+    }
+
+    // Continue with user creation if they don't exist
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
       ...req.body,
@@ -27,9 +34,10 @@ router.post("/signup", async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Signup failed: " + error.message });
   }
 });
+
 
 // User login
 router.post("/login", async (req, res) => {

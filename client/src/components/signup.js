@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   let navigate = useNavigate();
 
   const isValidEmail = (email) => {
     const re =
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}]))$/;
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})$/;
     return re.test(String(email).toLowerCase());
   };
 
@@ -19,11 +19,9 @@ function SignUp() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("handleSubmit called");
     e.preventDefault();
-    console.log("Form submitted", { username, password });
 
-    if (!isValidEmail(username)) {
+    if (!isValidEmail(email)) {
       setErrorMessage("Invalid email format");
       return;
     }
@@ -37,15 +35,18 @@ function SignUp() {
       const response = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
-        // Option: Navigate to the login page or automatically log the user in
-        navigate("/login"); // For now, navigating to the login page
+        navigate("/login");
       } else {
         const data = await response.json();
-        setErrorMessage("Signup failed: " + data.error);
+        if (data.error) {
+          setErrorMessage("Signup failed: " + data.error);
+        } else {
+          setErrorMessage("Signup failed: An unknown error occurred");
+        }
       }
     } catch (error) {
       setErrorMessage("An error occurred: " + error.message);
@@ -57,12 +58,12 @@ function SignUp() {
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>

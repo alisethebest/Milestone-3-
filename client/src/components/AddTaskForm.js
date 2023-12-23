@@ -18,7 +18,6 @@ function AddTaskForm({ onAdd }) {
     setIsSubmitting(true);
     setError("");
 
-    // Replace this with your task submission logic
     try {
       await onAdd({ title, description });
       setTitle("");
