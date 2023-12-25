@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
-import task from "./components/task";
 import Login from "./components/login";
 import SignUp from "./components/signup";
 import "./App.css";
@@ -99,7 +98,7 @@ function App() {
     }, [navigate]);
     return <div>Testing Navigation...</div>;
   };
-  
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);

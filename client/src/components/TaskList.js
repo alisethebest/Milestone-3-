@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Task from "./task";
+import "../styles/TaskList.css"; // Ensure the relative path to your CSS file is correct
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -37,7 +38,9 @@ const TaskList = () => {
   }
 
   return (
-    <div>
+    <div className="task-list">
+      {" "}
+      {/* Add the class here */}
       {tasks.length > 0 ? (
         tasks.map((task) => <Task key={task.id} task={task} />)
       ) : (

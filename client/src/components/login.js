@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -32,7 +32,8 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        navigate("/tasks");
+        props.onLogin(data.token); // Update the application state
+        navigate("/"); // Navigate to the home page
       } else {
         const data = await response.json();
         setErrorMessage("Login failed: " + data.error);

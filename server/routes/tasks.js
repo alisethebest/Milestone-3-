@@ -20,6 +20,9 @@ router.post("/api/tasks/add", async (req, res) => {
     // Save the task to the database
     await newTask.save();
 
+    // Log the newly created task
+    console.log("New Task Created:", newTask);
+
     // Send a success response with the newly created task
     res.status(201).json(newTask);
   } catch (error) {
