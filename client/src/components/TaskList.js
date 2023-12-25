@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Task from "./task";
-import "../styles/TaskList.css"; // Ensure the relative path to your CSS file is correct
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -8,25 +7,25 @@ const TaskList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true);
+    const fetchTasks = async () => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      // Simulated mock data (replace with your own mock data)
-      const mockData = [
-        { id: 1, title: "Task 1", description: "Description for Task 1" },
-        { id: 2, title: "Task 2", description: "Description for Task 2" },
-        { id: 3, title: "Task 3", description: "Description for Task 3" },
-      ];
-
-      // Simulate a delay to mimic an API request
-      setTimeout(() => {
-        setTasks(mockData);
+      try {
+        const response = await fetch("/api/tasks/user/:userId"); // Replace ':userId' with actual user ID
+        if (!response.ok) {
+          throw new Error("Error fetching tasks");
+        }
+        const data = await response.json();
+        setTasks(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setIsLoading(false);
-      }, 1000); // Adjust the delay as needed
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
+      }
+    };
+
+    fetchTasks();
   }, []);
 
   if (isLoading) {
@@ -38,9 +37,7 @@ const TaskList = () => {
   }
 
   return (
-    <div className="task-list">
-      {" "}
-      {/* Add the class here */}
+    <div>
       {tasks.length > 0 ? (
         tasks.map((task) => <Task key={task.id} task={task} />)
       ) : (

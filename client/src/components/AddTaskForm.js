@@ -1,36 +1,39 @@
 import React, { useState } from "react";
-import "../styles/AddTaskForm.css"; // Make sure this path is correct
 
-function AddTaskForm({ onAdd }) {
+function AddTaskForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Define isSubmitting here
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !description.trim()) {
+    if (!title || !description) {
       setError("Please fill in all fields");
       return;
     }
 
-    setIsSubmitting(true);
-    setError("");
-
     try {
-      // Log the data being sent in the POST request
-      console.log("Task Data:", { title, description });
+      const response = await fetch("/api/tasks/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      });
 
-      // Call the onAdd function to add the task
-      await onAdd({ title, description });
-
-      setTitle("");
-      setDescription("");
-    } catch (err) {
-      setError("Failed to add task. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+      if (response.ok) {
+        const data = await response.json();
+        // Handle successful task addition, e.g., clear form, update state in parent component
+        setTitle("");
+        setDescription("");
+      } else {
+        // Handle server errors here
+        setError("Failed to add task. Please try again.");
+      }
+    } catch (error) {
+      setError("An error occurred: " + error.message);
     }
   };
 
