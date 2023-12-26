@@ -4,7 +4,7 @@ const router = express.Router();
 const Task = require("../models/task");
 
 // POST route for creating a task
-router.post("/api/tasks/add", async (req, res) => {
+router.post("/add", async (req, res) => {
   const { title, description, deadline, priority, user } = req.body; // Extract the fields from the request body
 
   try {

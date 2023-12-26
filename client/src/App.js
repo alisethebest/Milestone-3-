@@ -74,6 +74,7 @@ function Home() {
 }
 
 function App() {
+  const [tasks, setTasks] = useState([]);
   const [navOpen, setNavOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -88,6 +89,23 @@ function App() {
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
   };
+
+  const fetchTasks = async () => {
+    // Fetch tasks from server and update state
+    try {
+      const response = await fetch("/api/tasks/user/:userId"); // Update with correct endpoint
+      if (response.ok) {
+        const data = await response.json();
+        setTasks(data);
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   // Add a test route for navigation
   const TestNavigate = () => {

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import '../styles/AddTaskForm.css';
 
-function AddTaskForm() {
+function AddTaskForm({ onTasksUpdate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false); // Define isSubmitting here
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -14,49 +15,49 @@ function AddTaskForm() {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
-      const response = await fetch("/api/tasks/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, description }),
-      });
+     const response = await fetch("/api/add", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify({ title, description }),
+     });
+
 
       if (response.ok) {
-        const data = await response.json();
-        // Handle successful task addition, e.g., clear form, update state in parent component
         setTitle("");
         setDescription("");
+        setError("");
+        await onTasksUpdate(); // Refresh the task list
       } else {
-        // Handle server errors here
         setError("Failed to add task. Please try again.");
       }
     } catch (error) {
       setError("An error occurred: " + error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="add-task-form-container">
-      {" "}
-      {/* Add the container class here */}
       <form onSubmit={handleSubmit} className="add-task-form">
-        {" "}
-        {/* Add the form class if needed */}
         {error && <p className="error">{error}</p>}
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
-          className="task-input" // Add classes for individual elements if needed
+          className="task-input"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
-          className="task-textarea" // Add classes for individual elements if needed
+          className="task-textarea"
         />
         <button
           type="submit"
