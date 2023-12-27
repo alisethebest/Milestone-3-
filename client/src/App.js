@@ -93,7 +93,8 @@ function App() {
   const fetchTasks = async () => {
     // Fetch tasks from server and update state
     try {
-      const response = await fetch("/api/tasks/user/:userId"); // Update with correct endpoint
+      const userId = localStorage.getItem("token"); // Retrieve the user's token or ID
+      const response = await fetch(`/api/tasks/user/${userId}`);
       if (response.ok) {
         const data = await response.json();
         setTasks(data);
@@ -102,6 +103,7 @@ function App() {
       console.error("Error fetching tasks:", error);
     }
   };
+
 
   useEffect(() => {
     fetchTasks();

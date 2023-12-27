@@ -11,10 +11,19 @@ const TaskList = () => {
       setIsLoading(true);
       setError(null);
 
+      // Attempt to retrieve the userId from localStorage
+      const userId = localStorage.getItem("userId");
+
+      if (!userId) {
+        // Handle the case where userId is not found in localStorage (user not logged in)
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch("/api/tasks/user/:userId"); // Replace ':userId' with actual user ID
+        const response = await fetch(`/api/tasks/user/${userId}`);
         if (!response.ok) {
-          throw new Error("Error fetching tasks");
+          throw new Error(`Error fetching tasks: ${response.statusText}`);
         }
         const data = await response.json();
         setTasks(data);
@@ -26,7 +35,7 @@ const TaskList = () => {
     };
 
     fetchTasks();
-  }, []);
+  }, []); // No dependencies, so this effect runs once on component mount
 
   if (isLoading) {
     return <p>Loading tasks...</p>;
@@ -39,7 +48,7 @@ const TaskList = () => {
   return (
     <div>
       {tasks.length > 0 ? (
-        tasks.map((task) => <Task key={task.id} task={task} />)
+        tasks.map((task) => <Task key={task._id} task={task} />)
       ) : (
         <p>No tasks available</p>
       )}
