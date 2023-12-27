@@ -9,19 +9,6 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  deadline: {
-    type: Date,
-    required: false,
-  },
-  priority: {
-    type: String,
-    required: false,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
 });
 
 const Task = mongoose.model("Task", TaskSchema);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../styles/AddTaskForm.css';
+import "../styles/AddTaskForm.css";
 
 function AddTaskForm({ onTasksUpdate }) {
   const [title, setTitle] = useState("");
@@ -9,29 +9,27 @@ function AddTaskForm({ onTasksUpdate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!title || !description) {
       setError("Please fill in all fields");
       return;
     }
 
     setIsSubmitting(true);
-
     try {
-     const response = await fetch("/api/add", {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify({ title, description }),
-     });
-
+      const userId = localStorage.getItem("userId"); // Get the user ID saved in localStorage
+      const response = await fetch("/api/tasks/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description, user: userId }),
+      });
 
       if (response.ok) {
+        const newTask = await response.json();
+        onTasksUpdate(newTask); // Call the onTasksUpdate function passed via props
         setTitle("");
         setDescription("");
-        setError("");
-        await onTasksUpdate(); // Refresh the task list
       } else {
         setError("Failed to add task. Please try again.");
       }

@@ -206,7 +206,7 @@ function App() {
             path="/add-task"
             element={
               <ProtectedRoute>
-                <AddTaskForm />
+                <AddTaskForm onTasksUpdate={fetchTasks} />
               </ProtectedRoute>
             }
           />
