@@ -38,7 +38,6 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-
 // User login
 router.post("/login", async (req, res) => {
   try {

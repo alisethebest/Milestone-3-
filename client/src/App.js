@@ -93,8 +93,12 @@ function App() {
   const fetchTasks = async () => {
     // Fetch tasks from server and update state
     try {
-      const userId = localStorage.getItem("token"); // Retrieve the user's token or ID
-      const response = await fetch(`/api/tasks/user/${userId}`);
+      const token = localStorage.getItem("token"); // Retrieve the user's token
+      const response = await fetch(`/api/tasks`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setTasks(data);
@@ -103,6 +107,7 @@ function App() {
       console.error("Error fetching tasks:", error);
     }
   };
+
 
 
   useEffect(() => {
