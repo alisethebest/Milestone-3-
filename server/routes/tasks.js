@@ -4,10 +4,10 @@ const router = express.Router();
 const Task = require("../models/task");
 
 // POST route for creating a task
-router.post('/add', async (req, res) => {
+router.post("/tasks/add", async (req, res) => {
   const { title, description, user } = req.body;
   try {
-    const newTask = new Task({ title, description, user });
+    const newTask = new Task({ title, description });
     await newTask.save();
     res.status(201).json(newTask);
   } catch (error) {
